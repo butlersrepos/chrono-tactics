@@ -1,0 +1,29 @@
+{
+  "name": "chrono-tactics",
+  "version": "0.1.0",
+  "description": "Tactics style game with time-travel mechanics",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha src/test/ --recursive",
+    "prestart": "gulp",
+    "start": "node build/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/butlersrepos/chrono-tactics.git"
+  },
+  "author": "Eric Butler",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/butlersrepos/chrono-tactics/issues"
+  },
+  "homepage": "https://github.com/butlersrepos/chrono-tactics#readme",
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1"
+  },
+  "dependencies": {
+    "express.io": "^1.1.13"
+  }
+}
