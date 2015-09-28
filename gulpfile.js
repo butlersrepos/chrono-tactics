@@ -1,9 +1,16 @@
 var gulp = require("gulp");
 var babel = require("gulp-babel");
 var del = require('del');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 
 var paths = {
-	js: ['src/*.js', 'src/private/js/**/*.js', '!src/public/js/vendor/**/*.js']
+	backendJs: ['src/*.js', 'src/private/js/**/*.js', 
+		'!src/public/js/vendor/**/*.js'],
+	vendorJs: ['src/public/js/vendor/**/*.js', 
+		'src/private/js/vendor/**/*.js'],
+	frontJs: 'src/public/js/vendor/**/*.js',
+	jadeFiles: ['src/public/views/**/*.jade']
 };
 
 gulp.task('clean', function() {
@@ -11,26 +18,39 @@ gulp.task('clean', function() {
 });
 
 // JS Files
-gulp.task("babel", function () {
-  return gulp.src(paths.js)
+gulp.task('babelify', function () {
+  return gulp.src(paths.backendJs)
     .pipe(babel())
-    .pipe(gulp.dest("build"));
+    .pipe(gulp.dest('build'));
+});
+
+gulp.task('browserify', function() {
+	return browserify('src/public/js/main.js')
+			.bundle()
+			.pipe(source('bundled.js'))
+			.pipe(gulp.dest('build/public/js'));
 });
 
 gulp.task('vendor:js', function() {
-	return gulp.src(['src/public/js/vendor/**/*.js', 'src/private/js/vendor/**/*.js'], {base:'src'})
+	return gulp.src(paths.vendorJs, {base:'src'})
 		.pipe(gulp.dest('build'));
 });
 
-gulp.task('build:js', ['babel', 'vendor:js']);
+gulp.task('build:js', ['babelify', 'browserify', 'vendor:js']);
 
 // HTML
-gulp.task("views", function() {
-	return gulp.src("src/public/views/**/*.jade")
-		.pipe(gulp.dest("build/public/views"));
+gulp.task('build:views', function() {
+	return gulp.src(paths.jadeFiles)
+		.pipe(gulp.dest('build/public/views'));
 });
 
-gulp.task('default', ['build:js', 'views'], function() {
-	gulp.watch(paths.js, ["babel"]);
-	gulp.watch("src/views/**/*.jade", ["views"]);
+gulp.task('build:imgs', function() {
+	return gulp.src('src/public/imgs/**/*.*')
+		.pipe(gulp.dest('build/public/imgs'));
+});
+
+gulp.task('default', ['build:js', 'build:views', 'build:imgs'], function() {
+	gulp.watch(paths.backendJs, ['babelify']);
+	gulp.watch(paths.frontJs, ['browserify']);
+	gulp.watch(paths.jadeFiles, ['build:views']);
 });

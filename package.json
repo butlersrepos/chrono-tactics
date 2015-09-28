@@ -19,11 +19,14 @@
   },
   "homepage": "https://github.com/butlersrepos/chrono-tactics#readme",
   "devDependencies": {
+    "browserify": "^11.2.0",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.1"
+    "gulp-babel": "^5.2.1",
+    "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "express.io": "^1.1.13"
+    "express.io": "^1.1.13",
+    "jquery": "^2.1.4"
   }
 }
