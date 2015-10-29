@@ -1,4 +1,5 @@
 import express from 'express.io';
+import fs from 'fs';
 
 var app = express();
 
@@ -10,9 +11,9 @@ app.get( '/', function( req, res ) {
 	res.render( 'index', { title: 'testTitle' } );
 } );
 
-app.get( '/maps/map01', function( req, res ) {
-	res.
-} );
+//app.get( '/maps/map01', function( req, res ) {
+//
+//} );
 
 app.http().io();
 

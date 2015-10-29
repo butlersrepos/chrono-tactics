@@ -51,7 +51,7 @@ gulp.task('build:imgs', function() {
 });
 
 gulp.task('copy:maps', function() {
-	return gulp.src(path.mapFiles)
+	return gulp.src(paths.mapFiles)
 		.pipe(gulp.dest('build/public/maps'));
 });
 
