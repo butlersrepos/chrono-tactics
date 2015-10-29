@@ -1,5 +1,4 @@
 
-
 var renderer = new PIXI.WebGLRenderer(800, 600);
 
 document.body.appendChild(renderer.view);
