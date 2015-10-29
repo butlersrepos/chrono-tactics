@@ -10,7 +10,8 @@ var paths = {
 	vendorJs: ['src/public/js/vendor/**/*.js', 
 		'src/private/js/vendor/**/*.js'],
 	frontJs: 'src/public/js/vendor/**/*.js',
-	jadeFiles: ['src/public/views/**/*.jade']
+	jadeFiles: ['src/public/views/**/*.jade'],
+	mapFiles: ['src/public/maps/**/*.json']
 };
 
 gulp.task('clean', function() {
@@ -49,8 +50,17 @@ gulp.task('build:imgs', function() {
 		.pipe(gulp.dest('build/public/imgs'));
 });
 
-gulp.task('default', ['build:js', 'build:views', 'build:imgs'], function() {
+gulp.task('copy:maps', function() {
+	return gulp.src(path.mapFiles)
+		.pipe(gulp.dest('build/public/maps'));
+});
+
+// Build steps
+gulp.task('build', ['build:js', 'build:views', 'build:imgs', 'copy:maps']);
+
+gulp.task('default', ['build'], function() {
 	gulp.watch(paths.backendJs, ['babelify']);
 	gulp.watch(paths.frontJs, ['browserify']);
 	gulp.watch(paths.jadeFiles, ['build:views']);
+	gulp.watch(paths.mapFiles, ['copy:maps']);
 });
